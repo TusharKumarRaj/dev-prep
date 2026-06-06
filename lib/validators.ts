@@ -50,7 +50,7 @@ export function parseQuestionInput(body: unknown):
   }
 
   if (!topic || topic.length < 2) {
-    return { ok: false, message: "Topic is required (at least 2 characters)" };
+    return { ok: false, message: "Topic is required — select one or enter a new topic" };
   }
 
   if (!difficulty) {

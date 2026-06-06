@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { HudPanel } from "@/components/ui/HudPanel";
+import { getTopicFromFormData, TopicSelect } from "@/components/TopicSelect";
 
 type QuestionFormProps = {
   mode?: "create" | "edit";
@@ -36,10 +37,18 @@ export function QuestionForm({
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
+    const topic = getTopicFromFormData(formData);
+
+    if (!topic || topic.length < 2) {
+      setError("Please select or enter a topic (at least 2 characters).");
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       title: String(formData.get("title") ?? ""),
       description: String(formData.get("description") ?? ""),
-      topic: String(formData.get("topic") ?? ""),
+      topic,
       difficulty: String(formData.get("difficulty") ?? ""),
       solved: formData.get("solved") === "on",
     };
@@ -81,7 +90,7 @@ export function QuestionForm({
       <form onSubmit={handleSubmit} className="space-y-4 pt-2">
         <div>
           <label htmlFor="title" className="hud-label mb-1.5 block">
-            Identification
+            Identification <span className="text-[var(--hud-rose)]">*</span>
           </label>
           <input
             id="title"
@@ -108,25 +117,11 @@ export function QuestionForm({
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="topic" className="hud-label mb-1.5 block">
-              Topic
-            </label>
-            <input
-              id="topic"
-              name="topic"
-              list="topic-suggestions"
-              required
-              defaultValue={initialData?.topic ?? defaultTopic ?? ""}
-              className="hud-input"
-              placeholder="e.g. arrays, trees, system design"
-            />
-            <datalist id="topic-suggestions">
-              {existingTopics.map((topic) => (
-                <option key={topic} value={topic} />
-              ))}
-            </datalist>
-          </div>
+          <TopicSelect
+            existingTopics={existingTopics}
+            defaultTopic={defaultTopic}
+            initialTopic={initialData?.topic}
+          />
 
           <div>
             <label htmlFor="difficulty" className="hud-label mb-1.5 block">
