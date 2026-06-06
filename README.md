@@ -82,46 +82,9 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## Deploy to Vercel
+## Deploy Link
 
-### 1. Push code to GitHub
-
-Make sure `prisma/migrations/` is committed (including `migration_lock.toml`).
-
-### 2. Create Turso database (if you haven't already)
-
-Use the same steps as local setup. You can use one Turso DB for both local dev and production, or create a separate `dev-prep-prod` database.
-
-### 3. Apply migrations to Turso (one time)
-
-From your machine with `.env` configured:
-
-```bash
-npm run db:deploy
-```
-
-### 4. Import project on Vercel
-
-1. Go to [vercel.com](https://vercel.com) → **Add New Project** → import your GitHub repo
-2. Vercel auto-detects Next.js — no custom build command needed
-
-### 5. Add environment variables
-
-In Vercel → Project → **Settings** → **Environment Variables**, add:
-
-| Name | Value |
-|------|-------|
-| `TURSO_DATABASE_URL` | `libsql://...` from `turso db show` |
-| `TURSO_AUTH_TOKEN` | token from `turso db tokens create` |
-| `DATABASE_URL` | same as `TURSO_DATABASE_URL` |
-
-Apply to **Production**, **Preview**, and **Development**.
-
-### 6. Redeploy
-
-Trigger a new deploy. The build should pass because Turso is reachable at build time (for ISR / `generateStaticParams`).
-
----
+https://dev-prep-seven.vercel.app/
 
 ## Scripts
 
