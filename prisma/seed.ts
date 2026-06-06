@@ -1,12 +1,7 @@
 import "dotenv/config";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { PrismaClient } from "../app/generated/prisma/client";
+import { createPrismaClient } from "../lib/prisma";
 
-const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./dev.db",
-});
-
-const db = new PrismaClient({ adapter });
+const db = createPrismaClient();
 
 async function main() {
   await db.dailyVisit.deleteMany();

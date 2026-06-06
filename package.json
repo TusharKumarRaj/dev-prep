@@ -9,13 +9,14 @@
     "lint": "eslint",
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
+    "db:deploy": "npx tsx scripts/apply-migrations.ts",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:setup": "prisma migrate dev && npm run db:seed"
+    "db:setup": "npm run db:deploy && npm run db:seed"
   },
   "dependencies": {
-    "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "@libsql/client": "^0.17.3",
+    "@prisma/adapter-libsql": "^7.8.0",
     "@prisma/client": "^7.8.0",
-    "better-sqlite3": "^12.10.0",
     "dotenv": "^17.4.2",
     "next": "16.2.7",
     "prisma": "^7.8.0",
@@ -24,7 +25,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
